@@ -6,7 +6,27 @@
         xmlns:local="clr-namespace:TwoWindowsMVVM"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="Button" >
+            <Setter Property="Margin" Value="10.5"/>
+        </Style>
+    </Window.Resources>
     <Grid>
+        <DockPanel Margin="50">
+            <GroupBox DockPanel.Dock="Top" Header="Сообщение второму окну">
+                <TextBox/>
+            </GroupBox>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <Button Content="Отправить"/>
+                <Button Content="Открыть второе оно"/>
+                <Button Content="Перейти во второе окно"/>
+            </UniformGrid>
+            <GroupBox>
+                <ListBox>
+                    
+                </ListBox>
+            </GroupBox>
+        </DockPanel>
 
     </Grid>
 </Window>
