@@ -2,21 +2,35 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using TwoWindowsMVVM.Commands;
+using TwoWindowsMVVM.Services;
 
 namespace TwoWindowsMVVM.ViewModels;
 
 internal class SecondaryWindowViewModel : ViewModelBase
 {
-	public string Title { get; set; } = "Главное окно";
-
+	
+	private readonly ObservableCollection<TextMessageModel> _messages = new();
+	private readonly IUserDialog _userDialog;
 	private string? _message;
+
+	#region ctor
+	public SecondaryWindowViewModel()
+	{
+		Title =  "Вторичное окно";
+	}
+	public SecondaryWindowViewModel(IUserDialog userDialog):this() 
+	{
+		this._userDialog = userDialog;
+	}
+
+	#endregion
 
 	public string? Message
 	{
 		get { return _message; }
 		set { Set(ref _message, value); }
 	}
-	private readonly ObservableCollection<TextMessageModel> _messages = new();
+	public string Title { get; set; }
 	public IEnumerable<TextMessageModel> Messages => _messages;
 
 	#region commamds
@@ -36,7 +50,7 @@ internal class SecondaryWindowViewModel : ViewModelBase
 
 	private void OnOpenMainWindowCommandExecuted()
 	{
-
+		_userDialog.OpenMainWindow();
 	}
 	#endregion
 
@@ -46,6 +60,7 @@ internal class SecondaryWindowViewModel : ViewModelBase
 
 	private void OnChangeToMainWindowCommandExecuted()
 	{
+		_userDialog.OpenMainWindow();
 
 	}
 	#endregion

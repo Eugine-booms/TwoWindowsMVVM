@@ -1,23 +1,41 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using TwoWindowsMVVM.Commands;
+using TwoWindowsMVVM.Services;
 
 namespace TwoWindowsMVVM.ViewModels;
 
 internal class MainWindowViewModel: ViewModelBase
 {
-	public string Title { get; set; } = "Главное окно";
-
 	private string? _message;
+	private readonly ObservableCollection<TextMessageModel> _messages = new();
+	private readonly IUserDialog _userDialog;
 
+
+	public string Title { get; set; }
 	public string? Message
 	{
 		get { return _message; }
 		set { Set(ref _message, value); }
 	}
-	private readonly ObservableCollection<TextMessageModel> _messages = new();
 	public IEnumerable<TextMessageModel> Messages => _messages;
+	
+	
+	
+
+	#region ctor
+	public MainWindowViewModel()
+	{
+		Title = "Главное окно";
+	}
+	public MainWindowViewModel(IUserDialog userDialog): this()
+	{
+		this._userDialog = userDialog;
+	}
+
+	#endregion
 
 	#region commamds
 	#region SendMessageCommand
@@ -36,17 +54,20 @@ internal class MainWindowViewModel: ViewModelBase
 
 	private void OnOpenSecondWindowCommandExecuted()
 	{
-
+		_userDialog.OpenSecondaryWindow();
 	}
 	#endregion
 
 	#region ChangeToSecondWindowCommand
 	private LambdaCommand? _changeToSecondWindowCommand;
+
+	
+
 	public ICommand ChangeToSecondWindowCommand => _openSecondWindowCommand ??= new(OnChangeToSecondWindowCommandExecuted, () => true);
 
 	private void OnChangeToSecondWindowCommandExecuted()
 	{
-
+		_userDialog.OpenSecondaryWindow();
 	}
 	#endregion
 	#endregion

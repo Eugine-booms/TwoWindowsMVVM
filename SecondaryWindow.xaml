@@ -16,7 +16,7 @@
     <Grid>
         <DockPanel Margin="50">
             <GroupBox DockPanel.Dock="Top" Header="Сообщение второму окну">
-                <TextBox Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Text="{Binding Message}"/>
             </GroupBox>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <Button Content="Отправить" Command="{Binding SendMessageCommand}" CommandParameter="{Binding Message}"/>
@@ -24,7 +24,7 @@
                 <Button Content="Перейти во второе окно" Command="{Binding ChangeToMainWindowCommand}"/>
             </UniformGrid>
             <GroupBox>
-                <ListBox ItemsSource="{Binding Messages}">
+                <ListBox ItemsSource="{Binding Messages}" d:ItemsSource="{d:SampleData ItemCount=5}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
+using TwoWindowsMVVM.Services;
 using TwoWindowsMVVM.ViewModels;
 
 namespace TwoWindowsMVVM;
@@ -22,12 +23,14 @@ public partial class App : Application
 
 		services.AddTransient<MainWindow>(s => new MainWindow { DataContext = s.GetRequiredService<MainWindowViewModel>() });
 		services.AddTransient<SecondaryWindow>(s => new SecondaryWindow { DataContext = s.GetRequiredService<SecondaryWindowViewModel>() });
+
+		services.AddSingleton<IUserDialog, UserDialogService>();
 		return services;
 	}
 
 	protected override void OnStartup(StartupEventArgs e)
 	{
 		base.OnStartup(e);
-		Services.GetRequiredService<MainWindow>().Show();
+		Services.GetRequiredService<IUserDialog>().OpenMainWindow();
 	}
 }
