@@ -7,14 +7,12 @@ using TwoWindowsMVVM.Services;
 
 namespace TwoWindowsMVVM.ViewModels;
 
-internal class MainWindowViewModel: ViewModelBase
+internal class MainWindowViewModel: DialogViewModel
 {
 	private string? _message;
 	private readonly ObservableCollection<TextMessageModel> _messages = new();
 	private readonly IUserDialog _userDialog;
 
-
-	public string Title { get; set; }
 	public string? Message
 	{
 		get { return _message; }
@@ -63,11 +61,12 @@ internal class MainWindowViewModel: ViewModelBase
 
 	
 
-	public ICommand ChangeToSecondWindowCommand => _openSecondWindowCommand ??= new(OnChangeToSecondWindowCommandExecuted, () => true);
+	public ICommand ChangeToSecondWindowCommand => _changeToSecondWindowCommand ??= new(OnChangeToSecondWindowCommandExecuted, () => true);
 
 	private void OnChangeToSecondWindowCommandExecuted()
 	{
 		_userDialog.OpenSecondaryWindow();
+		OnDialogComplete(EventArgs.Empty);
 	}
 	#endregion
 	#endregion

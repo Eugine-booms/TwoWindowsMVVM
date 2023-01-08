@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using TwoWindowsMVVM.Commands;
@@ -6,7 +7,7 @@ using TwoWindowsMVVM.Services;
 
 namespace TwoWindowsMVVM.ViewModels;
 
-internal class SecondaryWindowViewModel : ViewModelBase
+internal class SecondaryWindowViewModel : DialogViewModel
 {
 	
 	private readonly ObservableCollection<TextMessageModel> _messages = new();
@@ -30,7 +31,6 @@ internal class SecondaryWindowViewModel : ViewModelBase
 		get { return _message; }
 		set { Set(ref _message, value); }
 	}
-	public string Title { get; set; }
 	public IEnumerable<TextMessageModel> Messages => _messages;
 
 	#region commamds
@@ -56,11 +56,12 @@ internal class SecondaryWindowViewModel : ViewModelBase
 
 	#region ChangeToMainWindowCommand
 	private LambdaCommand? _changeToMainWindowCommand;
-	public ICommand ChangeToMainWindowCommand => _openMainWindowCommand ??= new(OnChangeToMainWindowCommandExecuted, () => true);
+	public ICommand ChangeToMainWindowCommand => _changeToMainWindowCommand ??= new(OnChangeToMainWindowCommandExecuted, () => true);
 
 	private void OnChangeToMainWindowCommandExecuted()
 	{
 		_userDialog.OpenMainWindow();
+		OnDialogComplete(EventArgs.Empty);
 
 	}
 	#endregion

@@ -20,8 +20,8 @@
             </GroupBox>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <Button Content="Отправить" Command="{Binding SendMessageCommand}" CommandParameter="{Binding Message}"/>
-                <Button Content="Открыть второе оно" Command="{Binding OpenMainWindowCommand}"/>
-                <Button Content="Перейти во второе окно" Command="{Binding ChangeToMainWindowCommand}"/>
+                <Button Content="Открыть главное оно" Command="{Binding OpenMainWindowCommand}"/>
+                <Button Content="Перейти во главное окно" Command="{Binding ChangeToMainWindowCommand}"/>
             </UniformGrid>
             <GroupBox>
                 <ListBox ItemsSource="{Binding Messages}" d:ItemsSource="{d:SampleData ItemCount=5}">

@@ -21,8 +21,20 @@ public partial class App : Application
 		services.AddSingleton<MainWindowViewModel>();
 		services.AddTransient<SecondaryWindowViewModel>();
 
-		services.AddTransient<MainWindow>(s => new MainWindow { DataContext = s.GetRequiredService<MainWindowViewModel>() });
-		services.AddTransient<SecondaryWindow>(s => new SecondaryWindow { DataContext = s.GetRequiredService<SecondaryWindowViewModel>() });
+		services.AddTransient<MainWindow>(s =>
+		{
+			var vm = s.GetRequiredService<MainWindowViewModel>();
+			var window = new MainWindow { DataContext = vm };
+			vm.DialogComplete += (_, _) => window.Close();
+			return window;
+		});
+		services.AddTransient<SecondaryWindow>(s =>
+		{
+			var vm = s.GetRequiredService<SecondaryWindowViewModel>();
+			var window = new SecondaryWindow { DataContext = vm };
+			vm.DialogComplete += (_, _) => window.Close();
+			return window;
+		});
 
 		services.AddSingleton<IUserDialog, UserDialogService>();
 		return services;
