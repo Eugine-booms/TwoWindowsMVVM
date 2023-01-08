@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace TwoWindowsMVVM.Commands.Base
+namespace TwoWindowsMVVM.Commands
 {
 	internal abstract class Command : ICommand
 	{
